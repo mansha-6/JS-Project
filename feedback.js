@@ -54,6 +54,29 @@
 // Ensure the DOM is fully loaded before adding event listeners
 // Ensure the DOM is fully loaded before adding event listeners
 // Ensure the DOM is fully loaded before adding event listeners
+// document.addEventListener("DOMContentLoaded", function () {
+//     function show() {
+//         // Get values from input fields
+//         let name = document.getElementById("myName").value;
+//         let email = document.getElementById("myEmail").value;
+//         let dob = document.getElementById("myDOB").value;
+//         let division = document.getElementById("myDivision").value; // From dropdown
+//         let enrollNumber = document.getElementById("myEnroll").value;
+//         let city = document.getElementById("myCity").value;
+
+//         // Log collected data to the console
+//         console.log({ name, email, dob, division, enrollNumber, city });
+
+//         // Display thank you message
+//         document.getElementById("thankYouMessage").style.display = "block";
+//     }
+
+//     // Add event listener to the button
+//     document.getElementById("mybutton").addEventListener("click", function(e) {
+//         e.preventDefault();  // Prevent the form from actually submitting
+//         show();
+//     });
+// });
 document.addEventListener("DOMContentLoaded", function () {
     function show() {
         // Get values from input fields
@@ -67,13 +90,16 @@ document.addEventListener("DOMContentLoaded", function () {
         // Log collected data to the console
         console.log({ name, email, dob, division, enrollNumber, city });
 
-        // Display thank you message
-        document.getElementById("thankYouMessage").style.display = "block";
+        // Update and display thank you message with the user's name
+        let thankYouMessage = document.getElementById("thankYouMessage");
+        thankYouMessage.textContent = `Thank you, ${name}, for submitting your details!`;
+        thankYouMessage.style.display = "block";
     }
 
     // Add event listener to the button
-    document.getElementById("mybutton").addEventListener("click", function(e) {
-        e.preventDefault();  // Prevent the form from actually submitting
+    document.getElementById("mybutton").addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent the form from actually submitting
         show();
     });
 });
+

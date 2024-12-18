@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        .converter {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+        select, input[type="number"], button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h2>Dynamic Converter</h2>
+        <label for="converterType">Select Conversion Type:</label>
+        <select id="converterType" onchange="updateOptions()">
+            <option value="" disabled selected>Select an option</option>
+            <option value="temp">Temperature</option>
+            <option value="mass">Mass</option>
+            <option value="height">Height</option>
+        </select>
+        
+        <form id="dynamicConverter" class="hidden">
+            <div id="conversionOptions">
+                <!-- Dynamic radio buttons will be injected here -->
+            </div>
+            
+            <label for="inputValue">Enter Value:</label>
+            <input type="number" id="inputValue" required>
+            <button type="button" onclick="performConversion()">Convert</button>
+        </form>
+        
+        <div class="output" id="result"></div>
+    </div>
+
+    <script>
+        // Predefined options for different types of conversions
+        const options = {
+            temp: [
+                { id: "cToF", label: "Celsius to Fahrenheit", formula: value => (value * 9) / 5 + 32 },
+                { id: "fToC", label: "Fahrenheit to Celsius", formula: value => ((value - 32) * 5) / 9 }
+            ],
+            mass: [
+                { id: "kgToLb", label: "Kilograms to Pounds", formula: value => value * 2.20462 },
+                { id: "lbToKg", label: "Pounds to Kilograms", formula: value => value / 2.20462 }
+            ],
+            height: [
+                { id: "mToFt", label: "Meters to Feet", formula: value => value * 3.28084 },
+                { id: "ftToM", label: "Feet to Meters", formula: value => value / 3.28084 }
+            ]
+        };
+
+        let currentOptions = [];
+
+        function updateOptions() {
+            const converterType = document.getElementById("converterType").value;
+            const optionsContainer = document.getElementById("conversionOptions");
+            const form = document.getElementById("dynamicConverter");
+
+            // Clear existing radio buttons
+            optionsContainer.innerHTML = "";
+
+            // Update current options based on the selected type
+            currentOptions = options[converterType];
+
+            // Dynamically add radio buttons
+            currentOptions.forEach(option => {
+                const radio = document.createElement("input");
+                radio.type = "radio";
+                radio.id = option.id;
+                radio.name = "conversionType";
+                radio.value = option.id;
+
+                const label = document.createElement("label");
+                label.htmlFor = option.id;
+                label.textContent = option.label;
+
+                optionsContainer.appendChild(radio);
+                optionsContainer.appendChild(label);
+                optionsContainer.appendChild(document.createElement("br"));
+            });
+
+            // Show the form
+            form.classList.remove("hidden");
+        }
+
+        function performConversion() {
+            const inputValue = parseFloat(document.getElementById("inputValue").value);
+            const selectedOptionId = document.querySelector('input[name="conversionType"]:checked')?.value;
+            const resultDiv = document.getElementById("result");
+
+            if (isNaN(inputValue) || !selectedOptionId) {
+                resultDiv.textContent = "Please enter a valid value and select a conversion type.";
+                return;
+            }
+
+            // Find the selected option and perform its calculation
+            const selectedOption = currentOptions.find(option => option.id === selectedOptionId);
+            const result = selectedOption.formula(inputValue);
+
+            // Display the result
+            resultDiv.textContent = `Converted Value: ${result.toFixed(2)}`;
+        }
+
+        // Initialize with temperature options
+        updateOptions();
+    </script>
+</body>
+</html>
