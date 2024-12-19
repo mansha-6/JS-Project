@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 350px;
+    }
+    .form-group {
+      margin: 10px 0;
+      text-align: left;
+    }
+    .form-group label {
+      margin-left: 10px;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      font-size: 16px;
+      font-family: monospace;
+      color: #333;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Password Generator</h1>
+    <div class="form-group">
+      <label for="length">Password Length (12-64): </label>
+      <input type="number" id="length" min="12" max="64" value="12">
+    </div>
+    <div class="form-group">
+      <input type="checkbox" id="uppercase" checked>
+      <label for="uppercase">Include Uppercase Letters</label>
+    </div>
+    <div class="form-group">
+      <input type="checkbox" id="lowercase" checked>
+      <label for="lowercase">Include Lowercase Letters</label>
+    </div>
+    <div class="form-group">
+      <input type="checkbox" id="numbers" checked>
+      <label for="numbers">Include Numbers</label>
+    </div>
+    <div class="form-group">
+      <input type="checkbox" id="special" checked>
+      <label for="special">Include Special Characters</label>
+    </div>
+    <button onclick="generatePassword()">Generate Password</button>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    function generatePassword() {
+      // Get user preferences
+      const length = parseInt(document.getElementById("length").value);
+      const includeUppercase = document.getElementById("uppercase").checked;
+      const includeLowercase = document.getElementById("lowercase").checked;
+      const includeNumbers = document.getElementById("numbers").checked;
+      const includeSpecial = document.getElementById("special").checked;
+
+      if (!includeUppercase && !includeLowercase && !includeNumbers && !includeSpecial) {
+        document.getElementById("output").innerText = "Please select at least one character type.";
+        return;
+      }
+
+      // Character pools
+      const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+      const numberChars = "0123456789";
+      const specialChars = "!@#$%^&*()_+[]{}|;:,.<>?/";
+
+      // Combine selected character pools
+      let charPool = "";
+      if (includeUppercase) charPool += uppercaseChars;
+      if (includeLowercase) charPool += lowercaseChars;
+      if (includeNumbers) charPool += numberChars;
+      if (includeSpecial) charPool += specialChars;
+
+      // Generate password
+      let password = "";
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charPool.length);
+        password += charPool[randomIndex];
+      }
+
+      // Output password in the box
+      document.getElementById("output").innerText = password;
+    }
+  </script>
+</body>
+</html>

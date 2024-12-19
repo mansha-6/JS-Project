@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 350px;
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Guess the Number Game</h1>
+    <p>Click the button below to start the game.</p>
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <script>
+    // Function to start the guessing game
+    function startGame() {
+        let start = parseInt(prompt("Enter the starting number of the range:"));
+        let end = parseInt(prompt("Enter the ending number of the range:"));
+
+        if (isNaN(start) || isNaN(end) || start >= end) {
+            alert("Please enter valid numbers with start < end.");
+            return;
+        }
+
+        // Generate a random number within the provided range
+        let randomNum = Math.floor(Math.random() * (end - start + 1)) + start;
+
+        // Function for user guessing
+        function guessNumber() {
+            let guess = parseInt(prompt(`Guess a number between ${start} and ${end}:`));
+
+            if (guess === randomNum) {
+                alert(`Congratulations! ${guess} is correct. The random number is ${randomNum}.`);
+            } else if (guess < randomNum) {
+                alert(`The guess ${guess} is lesser than the random number. Try again.`);
+                guessNumber(); // Recursive call to allow re-guessing
+            } else if (guess > randomNum) {
+                alert(`The guess ${guess} is greater than the random number. Try again.`);
+                guessNumber(); // Recursive call to allow re-guessing
+            } else {
+                alert("Invalid input. Please enter a valid number.");
+            }
+        }
+
+        guessNumber(); // Start the guessing game
+    }
+  </script>
+</body>
+</html>
