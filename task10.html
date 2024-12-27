@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance System</title>
+    <link rel="stylesheet" href="task10.css">
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Attendance System</h1>
+        <div id="status" class="status">Loading model...</div>
+        <div class="webcam-section">
+            <button id="start-webcam" class="webcam-button">Start Webcam</button>
+            <video id="webcam-feed" autoplay playsinline class="hidden"></video>
+        </div>
+        <div id="results" class="results-container hidden">
+            <h2>Attendance Status</h2>
+            <p id="attendance-status">Checking...</p>
+        </div>
+        <button id="stop-webcam" class="hidden">Stop Webcam</button>
+    </div>
+    <script src="task10.js"></script>
+</body>
+</html>
